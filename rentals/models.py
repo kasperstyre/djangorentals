@@ -2,7 +2,6 @@ from django.db import models
 
 # Create your models here.
 class Rental(models.Model):
-    id = models.IntegerField()
     title = models.CharField(max_length=100)
     owner = models.CharField(max_length=100)
     city = models.CharField(max_length=100)
