@@ -1,5 +1,7 @@
 from django.db import models
 
+communityProperties = ['Condo', 'Townhouse', 'Apartment']
+
 # Create your models here.
 class Rental(models.Model):
     title = models.CharField(max_length=100)
@@ -9,3 +11,9 @@ class Rental(models.Model):
     bedrooms = models.IntegerField()
     image = models.CharField(max_length=250)
     description = models.CharField(max_length=1000)
+
+    def __str__(self):
+        return self.title + " - " + self.city
+
+    def is_community_property(self):
+        return self.category in communityProperties
