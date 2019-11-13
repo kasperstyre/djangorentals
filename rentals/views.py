@@ -1,8 +1,8 @@
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
-from rentals.models import Rental
-from rentals.serializers import RentalSerializer
+from rentals.models import Rental, RentalList
+from rentals.serializers import RentalSerializer, RentalListSerializer
 
 # Create your views here.
 def index(request):
@@ -12,8 +12,8 @@ def index(request):
 def rental_list(request):
 
     if request.method == 'GET':
-        rentals = Rental.objects.all()
-        serializer = RentalSerializer(rentals, many=True)
+        rental_list_object = RentalList(rentals=Rental.objects.all())
+        serializer = RentalListSerializer(rental_list_object)
         return JsonResponse(serializer.data, safe=False)
     
     elif request.method == 'POST':
