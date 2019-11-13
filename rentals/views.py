@@ -12,7 +12,11 @@ def index(request):
 def rental_list(request):
 
     if request.method == 'GET':
-        rental_list_object = RentalList(rentals=Rental.objects.all())
+        cityQuery = request.GET.get('city', '')
+
+        filteredRentals = Rental.objects.filter(city__icontains=cityQuery)
+
+        rental_list_object = RentalList(rentals=filteredRentals)
         serializer = RentalListSerializer(rental_list_object)
         return JsonResponse(serializer.data, safe=False)
     
@@ -46,4 +50,3 @@ def rental_detail(request, pk):
     elif request.method == 'DELETE':
         rental.delete()
         return HttpResponse(status=204)
-
