@@ -22,7 +22,7 @@ def rental_list(request):
     
     elif request.method == 'POST':
         data = JSONParser().parse(request)
-        serializer = RentalSerializer(data=data)
+        serializer = RentalSerializer(data=data['rental'])
         if serializer.is_valid():
             serializer.save()
             return JsonResponse(serializer.data, status=201)
