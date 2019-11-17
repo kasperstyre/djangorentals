@@ -17,7 +17,3 @@ class Rental(models.Model):
 
     def is_community_property(self):
         return self.category in communityProperties
-
-class RentalList():
-    def __init__(self, rentals):
-        self.rentals = rentals

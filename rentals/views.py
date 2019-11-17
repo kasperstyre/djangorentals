@@ -1,7 +1,7 @@
 from django.http import HttpResponse, JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from rest_framework.parsers import JSONParser
-from rentals.models import Rental, RentalList
+from rentals.models import Rental
 from rentals.serializers import RentalSerializer, RentalListSerializer
 
 # Create your views here.
@@ -16,7 +16,7 @@ def rental_list(request):
 
         filteredRentals = Rental.objects.filter(city__icontains=cityQuery)
 
-        rental_list_object = RentalList(rentals=filteredRentals)
+        rental_list_object = { 'rentals': filteredRentals }
         serializer = RentalListSerializer(rental_list_object)
         return JsonResponse(serializer.data, safe=False)
     
@@ -25,7 +25,9 @@ def rental_list(request):
         serializer = RentalSerializer(data=data['rental'])
         if serializer.is_valid():
             serializer.save()
-            return JsonResponse(serializer.data, status=201)
+
+            response = { 'rental': serializer.data }
+            return JsonResponse(response, status=201)
         return JsonResponse(serializer.errors, status=400)
 
 @csrf_exempt
